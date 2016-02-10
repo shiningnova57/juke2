@@ -7,6 +7,7 @@ juke.factory('PlayerFactory', function($http){
   var currentSong =null;
   var currentList;
   	return {
+  		audio:audio,
   		playing: playing,
   		currentSong: currentSong,
   		currentList: currentList,
@@ -45,18 +46,21 @@ juke.factory('PlayerFactory', function($http){
   			return null;
   		},
   		next: function() {
-
+  			//console.log(currentList);
   			var audioArray = currentList.map(function(each) {
   				return each.audioUrl;
   			})
+  			console.log(audioArray);
+  			
 
   			var currentAudio = currentSong.audioUrl;
   			var nextSongIndex = audioArray.indexOf(currentAudio) + 1;
   			
   			if (nextSongIndex === (currentList.length)) {
-  				return this.start(currentList[0]);
+  				return this.start(currentList[0],currentList);
   			}
-  			return this.start(currentList[nextSongIndex]);
+  			//console.log(this);
+  			return this.start(currentList[nextSongIndex],currentList);
   		},
 
   		previous:function(){
@@ -68,10 +72,10 @@ juke.factory('PlayerFactory', function($http){
   			var nextSongIndex = audioArray.indexOf(currentAudio) -1;
 
   			if(nextSongIndex < 0){
-  				return this.start(currentList[currentList.length-1])
+  				return this.start(currentList[currentList.length-1],currentList)
   			} 
-
-  			return this.start(currentList[nextSongIndex]);
+  				console.log(this);
+  			return this.start(currentList[nextSongIndex],currentList);
 
   		},
 
